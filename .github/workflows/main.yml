@@ -1,0 +1,47 @@
+name: Merge CSVs to Tab-separated TXT
+
+on:
+  push:
+    paths:
+      - "data/*.csv"
+
+jobs:
+  convert:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v3
+
+      - name: Set up Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: '3.x'
+
+      - name: Create output folder
+        run: mkdir -p converted
+
+      - name: Merge CSVs into one tab-separated TXT
+        run: |
+          python3 - <<EOF
+import csv
+import glob
+
+output_file = 'converted/merged.txt'
+csv_files = sorted(glob.glob('data/*.csv'))  # アルファベット順に処理
+
+with open(output_file, 'w', newline='', encoding='utf-8') as f_out:
+    writer = csv.writer(f_out, delimiter='\t')
+    for file in csv_files:
+        with open(file, newline='', encoding='utf-8') as f_in:
+            reader = csv.reader(f_in)
+            writer.writerows(reader)
+EOF
+
+      - name: Commit and push merged file
+        run: |
+          git config --global user.name "github-actions[bot]"
+          git config --global user.email "github-actions[bot]@users.noreply.github.com"
+          git add converted/merged.txt
+          git commit -m "Update merged tab-separated TXT" || echo "No changes to commit"
+          git push
