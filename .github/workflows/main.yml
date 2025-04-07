@@ -2,8 +2,8 @@ name: Merge CSVs to Tab-separated TXT
 
 on:
   push:
-    paths:
-      - "data/*.csv"
+    branches:
+      - main/**
 
 jobs:
   convert:
@@ -19,7 +19,7 @@ jobs:
           python-version: '3.x'
 
       - name: Run merge script
-        run: python3 scripts/merge_csvs.py
+        run: python3 WutheringWavesJapaneseDictionary/scripts/merge_csvs.py
 
       - name: Commit and push merged file
         run: |
