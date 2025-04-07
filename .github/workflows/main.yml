@@ -17,9 +17,16 @@ jobs:
         uses: actions/setup-python@v4
         with:
           python-version: '3.x'
+      
+      - name: Check working directory and files
+        run: |
+          echo "Current working directory:"
+          pwd
+          echo "List of files and directories:"
+          ls -R
 
       - name: Run merge script
-        run: python3 ../scripts/merge_csvs.py
+        run: python3 scripts/merge_csvs.py
 
       - name: Commit and push merged file
         run: |
