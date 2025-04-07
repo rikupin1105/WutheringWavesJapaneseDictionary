@@ -3,7 +3,7 @@ name: Merge CSVs to Tab-separated TXT
 on:
   push:
     branches:
-      - main/**
+      - main
 
 jobs:
   convert:
