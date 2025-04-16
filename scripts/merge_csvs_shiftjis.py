@@ -16,5 +16,8 @@ with open(output_file, "w", newline="", encoding="utf-16le") as f_out:
             for i, row in enumerate(reader):
                 if i == 0 and not first:
                     continue  # Skip header except for the first file
+
+                row = [cell.replace("地名", "地名その他") for cell in row]
+                
                 writer.writerow(row)
         first = False
