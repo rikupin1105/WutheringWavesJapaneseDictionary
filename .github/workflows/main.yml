@@ -28,13 +28,16 @@ jobs:
           echo "List of files and directories:"
           ls -R
 
-      - name: Run merge script
+      - name: Run merge script - GoogleIME
         run: python3 scripts/merge_csvs.py
+
+      - name: Run merge script - MicrosoftIME
+        run: python3 scripts/merge_csvs_shiftjis.py
 
       - name: Commit and push merged file
         run: |
           git config --global user.name "github-actions[bot]"
           git config --global user.email "github-actions[bot]@users.noreply.github.com"
-          git add GoogleJapaneseIME.txt
+          git add Merged.txt
           git commit -m "Update merged tab-separated TXT" || echo "No changes to commit"
           git push
