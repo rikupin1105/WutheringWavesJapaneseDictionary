@@ -5,7 +5,10 @@ output_file = "MicrosoftIME.txt"
 csv_files = sorted(glob.glob("data/*.csv"))
 
 first = True
-with open(output_file, "w", newline="", encoding="cp932") as f_out:
+with open(output_file, "w", newline="", encoding="utf-16le") as f_out:
+    # UTF-16LE に BOM を追加
+    f_out.write('\ufeff')
+    
     writer = csv.writer(f_out, delimiter="\t")
     for file in csv_files:
         with open(file, newline="", encoding="utf-8") as f_in:
